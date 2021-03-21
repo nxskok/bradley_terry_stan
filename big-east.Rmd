@@ -1,0 +1,28 @@
+# big east
+
+packages
+
+```{r}
+library(tidyverse)
+library(rstan)
+library(tidybayes)
+library(conflicted)
+conflict_prefer("extract", "rstan")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("lag", "dplyr")
+conflict_prefer("Position", "ggplot2") 
+```
+
+read in big east data
+
+```{r}
+big_east <- read_rds("../sportref/big_east_2018.rds")
+big_east %>% mutate(res = ifelse(s1>s2, 1, 0)) -> big_east
+```
+
+compile model
+
+```{r}
+bt <- stan(file = "bt.stan")
+```
+
